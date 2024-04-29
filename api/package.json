@@ -1,0 +1,26 @@
+{
+  "name": "fullstack-internship-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VitorSiqueirr/fullstack-internship-challenge"
+  },
+  "author": "Vitor Siqueira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VitorSiqueirr/fullstack-internship-challenge/issues"
+  },
+  "homepage": "https://github.com/VitorSiqueirr/fullstack-internship-challenge#readme",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "express": "^4.19.2",
+    "jsdom": "^24.0.0",
+    "nodemon": "^3.1.0"
+  }
+}
