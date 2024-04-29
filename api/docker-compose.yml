@@ -4,6 +4,6 @@ services:
   node-server:
     build: .
     ports:
-      - 3000:3000
+      - 3001:3000
     volumes:
       - ./server.js:/app/server.js
