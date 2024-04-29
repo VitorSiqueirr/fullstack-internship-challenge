@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+const cors = require("cors");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
@@ -44,6 +45,8 @@ const userAgents = [
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
 ];
 
+app.use(cors());
+
 const getRandomUserAgent = () => {
   const randomIndex = Math.floor(Math.random() * userAgents.length);
   return userAgents[randomIndex];
@@ -72,10 +75,17 @@ app.get("/api/scrape", async (req, res) => {
         productElement
           .querySelector(".a-icon-star-small")
           ?.textContent.trim() || "";
-      const numReviews =
-        productElement
-          .querySelector(".a-size-small .a-link-normal")
-          ?.textContent.trim() || "";
+
+      let numReviews;
+      const ratingsSpan = productElement.querySelector(
+        '[aria-label*="ratings"]'
+      );
+      if (ratingsSpan) {
+        const ariaLabel = ratingsSpan.getAttribute("aria-label");
+
+        const numReviewsMatch = ariaLabel.match(/\d+/);
+        numReviews = numReviewsMatch ? numReviewsMatch[0] : "N/A";
+      }
       const image =
         productElement.querySelector(".s-image")?.getAttribute("src") || "";
 
