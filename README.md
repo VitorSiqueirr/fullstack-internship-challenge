@@ -10,8 +10,8 @@
 - Make sure you have Docker Compose installed.
 - Ensure that Docker is properly configured on your machine.
 - Navigate to the project directory.
-- Run docker-compose build to build the image.
-- After the image is built, run docker-compose up to start the container.
+- Run `docker-compose build` to build the image.
+- After the image is built, run `docker-compose up` to start the container.
 - The API will be available at http://localhost:3000.
 - The API will also be available at http://127.0.0.1:8080.
 
