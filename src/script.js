@@ -68,7 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
       // Check if the product has a title and is not a "Check each product page for other buying options" message
       if (
         product.title &&
-        !/Check each product page for other buying options/i.test(product.title)
+        !/Check each product page for other buying options/i.test(
+          product.title
+        ) &&
+        product.rating
       ) {
         // Create a new div for the product
         const productDiv = document.createElement("div");
