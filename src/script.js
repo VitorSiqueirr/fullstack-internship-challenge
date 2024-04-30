@@ -65,14 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Clear previous results
     resultsContainer.innerHTML = "";
     products.forEach((product) => {
-      // Check if the product has a title and is not a "Check each product page for other buying options" message
-      if (
-        product.title &&
-        !/Check each product page for other buying options/i.test(
-          product.title
-        ) &&
-        product.rating
-      ) {
+      // Check if the product has a title and if has a rating
+      if (product.title && product.rating) {
         // Create a new div for the product
         const productDiv = document.createElement("div");
         productDiv.classList.add("product");
