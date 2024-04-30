@@ -7,11 +7,9 @@ const { JSDOM } = jsdom;
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
+// User agents for random selection
 const userAgents = [
+  // List of user agents to be used in the fetch, it's for simulating a real user making requests
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36",
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
@@ -47,27 +45,33 @@ const userAgents = [
 
 app.use(cors());
 
+// Get the random user agent that will be used for the request
 const getRandomUserAgent = () => {
   const randomIndex = Math.floor(Math.random() * userAgents.length);
   return userAgents[randomIndex];
 };
 
+// API endpoint for scraping
 app.get("/api/scrape", async (req, res) => {
   try {
+    // Get the keyword from the query string
     const keyword = req.query.keyword;
     const url = `https://www.amazon.com/s?k=${keyword}&ref=nb_sb_noss`;
 
+    // Make the request to the Amazon website
     const response = await axios.get(url, {
       headers: {
         "User-Agent": getRandomUserAgent(),
       },
     });
+    // Get the data from the response
     const dom = new JSDOM(response.data);
     const productElements =
       dom.window.document.querySelectorAll(".s-result-item");
 
     const products = [];
     productElements.forEach((productElement) => {
+      // Extracting product information
       const title =
         productElement.querySelector(".a-text-normal")?.textContent.trim() ||
         "";
@@ -89,6 +93,7 @@ app.get("/api/scrape", async (req, res) => {
       const image =
         productElement.querySelector(".s-image")?.getAttribute("src") || "";
 
+      // Push the product information into the products array
       products.push({
         title,
         rating,
@@ -97,6 +102,7 @@ app.get("/api/scrape", async (req, res) => {
       });
     });
 
+    // Return the scraped data as JSON
     res.json({ products });
   } catch (error) {
     console.error("Error scraping Amazon:", error.message);
@@ -104,6 +110,7 @@ app.get("/api/scrape", async (req, res) => {
   }
 });
 
+// If there's no PORT in the .env file then just go to the port 3000
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
