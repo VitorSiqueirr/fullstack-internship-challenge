@@ -43,13 +43,13 @@ const userAgents = [
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
 ];
 
-app.use(cors());
-
 // Get the random user agent that will be used for the request
 const getRandomUserAgent = () => {
   const randomIndex = Math.floor(Math.random() * userAgents.length);
   return userAgents[randomIndex];
 };
+
+app.use(cors());
 
 // API endpoint for scraping
 app.get("/api/scrape", async (req, res) => {
@@ -86,10 +86,10 @@ app.get("/api/scrape", async (req, res) => {
       );
       if (ratingsSpan) {
         const ariaLabel = ratingsSpan.getAttribute("aria-label");
-
         const numReviewsMatch = ariaLabel.match(/\d+/);
         numReviews = numReviewsMatch ? numReviewsMatch[0] : "N/A";
       }
+
       const image =
         productElement.querySelector(".s-image")?.getAttribute("src") || "";
 
